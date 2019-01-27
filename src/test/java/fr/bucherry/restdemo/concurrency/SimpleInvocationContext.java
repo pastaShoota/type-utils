@@ -4,7 +4,10 @@ import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimpleInvocationContext implements InvocationContext, Serializable {
     private final Object target;
@@ -14,7 +17,11 @@ public class SimpleInvocationContext implements InvocationContext, Serializable 
     public SimpleInvocationContext(Object target, String methodName, Object... parameters) {
         this.target = target;
         try {
-            this.method = target.getClass().getMethod(methodName, int.class, String.class);
+            Class[] parametersTypes = new Class[parameters.length];
+            for (int i=0; i<parameters.length; i++) {
+                parametersTypes[i] = parameters[i].getClass();
+            }
+            this.method = target.getClass().getMethod(methodName, parametersTypes);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(e);
         }

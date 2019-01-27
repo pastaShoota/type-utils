@@ -58,7 +58,7 @@ public class LockTest {
     @Test
     public void contentionCase1() throws Exception {
         InvocationContext call1 = new SimpleInvocationContext(jim, "sayHelloGoodbye", 123, "soleil");
-        InvocationContext call2 = new SimpleInvocationContext(joe, "sayHelloGoodbye", 123, "antares");
+        InvocationContext call2 = new SimpleInvocationContext(joe, "sayHelloGoodbye", 123, "sirius");
 
         Stream.of(call1, call2).parallel().forEach(call -> tryInvoke(client1, call));
 
@@ -84,7 +84,7 @@ public class LockTest {
         }
 
         // Annotated parameter is the one that matters for contention proceedings
-        public Object sayHelloGoodbye(@Deprecated int myParam1, String myParam2) throws InterruptedException {
+        public Object sayHelloGoodbye(@Deprecated Integer myParam1, String myParam2) throws InterruptedException {
             start = Instant.now();
             System.out.println(name + ": Hello performing " + myParam1 + " " + myParam2 + " it's " + start);
             Thread.sleep(250);
